@@ -1,5 +1,5 @@
 from src.model import Model
-from src.columns import Integer, Text, Real, Blob
+from src.model import Integer, Text, Real, Blob
 
 
 class Car(Model):

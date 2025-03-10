@@ -1,4 +1,4 @@
-from .utils import classproperty
+from ..utils import classproperty
 
 
 _NO_VALUE = object()

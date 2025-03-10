@@ -1,5 +1,5 @@
 from .columns import Column
-from .utils import classproperty
+from ..utils import classproperty
 
 
 class Model:
