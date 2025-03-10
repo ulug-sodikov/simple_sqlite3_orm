@@ -83,7 +83,7 @@ class SelectQuery:
         """
         Implements SQL "ON table.column = another_table.column" query part.
         """
-        # Check if column models match models specified in select()
+        # Check if column models match models specified in from_()
         # and join() methods
         if column.model_ is self._primary_model:
             if matching_column.model_ is not self._secondary_model:
@@ -96,7 +96,6 @@ class SelectQuery:
         self._query['ON'] = f'ON {column.query_} = {matching_column.query_}'
 
         return self
-
 
     @property
     def query(self):

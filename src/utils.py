@@ -1,7 +1,7 @@
 class classproperty:
     """
-    Class that behaves like @property and @classmethod decorators
-    combined.
+    Descriptor that behaves like @property and @classmethod
+    decorators combined.
     """
     def __init__(self, func):
         self._func = func
