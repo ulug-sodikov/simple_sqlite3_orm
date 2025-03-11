@@ -21,7 +21,7 @@ class Session:
         if self.con is None:
             raise sqlite3.ProgrammingError("No connection!")
 
-        sqlite3.row_factory = partial(row_factory, query._primary_model)
+        sqlite3.row_factory = partial(row_factory, query.primary_model)
         return self.con.execute(*query).fetchall()
 
     def flush(self):

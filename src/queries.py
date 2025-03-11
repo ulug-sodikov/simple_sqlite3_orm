@@ -17,8 +17,7 @@ class SelectQuery:
     def __init__(self):
         self._query = {}
         self._parameters = {}
-        self._primary_model = None
-        self._secondary_model = None
+        self.primary_model = None
 
     def select(self, *columns, distinct=False):
         """
@@ -44,7 +43,7 @@ class SelectQuery:
 
         if len(models) == 1:
             model = models.pop()
-            self._primary_model = model
+            self.primary_model = model
             self._query["FROM"] = f"FROM {model.__table_name__}"
 
         return self
@@ -57,17 +56,15 @@ class SelectQuery:
         looking into columns, thus this method is only useful if
         there are columns of multiple tables and join statement.
         """
-        self._primary_model = model
+        self.primary_model = model
         self._query['FROM'] = f"FROM {model.__table_name__}"
 
         return self
 
     def join(self, model, left=False):
         """Implements SQL "JOIN table" query part."""
-        if model is self._primary_model:
+        if model is self.primary_model:
             raise ValueError('Attempted to join the same tabel.')
-
-        self._secondary_model = model
 
         query_parts = []
         if left:
@@ -83,16 +80,6 @@ class SelectQuery:
         """
         Implements SQL "ON table.column = another_table.column" query part.
         """
-        # Check if column models match models specified in from_()
-        # and join() methods
-        if column.model_ is self._primary_model:
-            if matching_column.model_ is not self._secondary_model:
-                raise ValueError("Invalid joining column.")
-
-        if column.model_ is self._secondary_model:
-            if matching_column.model_ is not self._primary_model:
-                raise ValueError("Invalid joining column.")
-
         self._query['ON'] = f'ON {column.query_} = {matching_column.query_}'
 
         return self
