@@ -15,6 +15,9 @@ class Model:
             else:
                 raise TypeError(f"Unexpected keyword argument: {k}")
 
+    def __getitem__(self, item):
+        return self.column_names_[item]
+
     @classproperty
     def __table_name__(cls):
         """Override this property as an attribute in the subclass."""
