@@ -46,20 +46,20 @@ class Column:
 
     @property
     def sql_constrains(self):
-        query_parts = []
+        stmt_parts = []
         if self.primary_key:
-            query_parts.append("PRIMARY KEY")
+            stmt_parts.append("PRIMARY KEY")
 
         if self.autoincrement:
-            query_parts.append("AUTOINCREMENT")
+            stmt_parts.append("AUTOINCREMENT")
 
         if self.unique:
-            query_parts.append("UNIQUE")
+            stmt_parts.append("UNIQUE")
 
         if self.not_null:
-            query_parts.append("NOT NULL")
+            stmt_parts.append("NOT NULL")
 
-        return ' '.join(query_parts)
+        return ' '.join(stmt_parts)
 
     @property
     def sql_default(self):
@@ -73,7 +73,7 @@ class Column:
             return f'DEFAULT {self.default}'
 
     def validate(self, value):
-        if not isinstance(self.datatype, value):
+        if not isinstance(value, self.datatype):
             raise TypeError(f'Invalid type for {self.attrname}.')
 
 
