@@ -1,12 +1,18 @@
-from src.model import Model
-from src.model import Integer, Text, Real, Blob
+import sys
+import pathlib
+
+src_module_dir = pathlib.Path(__file__).parent.parent.parent
+sys.path.append(str(src_module_dir / 'src'))
+
+from model import Model
+from columns import Integer, Text, Real, Blob
 
 
 class Car(Model):
     __table_name__ = 'cars'
 
     id = Integer(primary_key=True, autoincrement=True)
-    brand = Text()
+    brand = Text(default="chevrolet")
     model = Text()
     to_100 = Real()
     engine_id = Integer()
