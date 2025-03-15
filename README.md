@@ -3,7 +3,8 @@ Simple Python ORM for sqlite3.
 ## Prerequisite
 - To use this library you need to create file `simple_sqlite3_orm.pth`
   in your `python3.X/site-pachages/` directory. This file should 
-  contain path to `simple_sqlite3_orm/src/`. Example:
+  contain path to `simple_sqlite3_orm/src/`.
+  `simple_sqlite3_orm.pth` file content example:
 ```
 /home/username/PycharmProjects/simple_sqlite3_orm/src/
 ```
