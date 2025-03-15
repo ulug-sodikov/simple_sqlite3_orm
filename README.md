@@ -2,10 +2,10 @@
 Simple Python ORM for sqlite3.
 ## Prerequisite
 - To use this library you need to create file `simple_sqlite3_orm.pth`
-  with the path to `src/simple-sqlite-orm` directory in your 
-  `python3.X/site-pachages/` directory. Example:
+  in your `python3.X/site-pachages/` directory. This file should 
+  contain path to `simple_sqlite3_orm/src/`. Example:
 ```
-/home/username/PycharmProjects/simple_sqlite3_orm/src
+/home/username/PycharmProjects/simple_sqlite3_orm/src/
 ```
 ## Usage
 ```
@@ -49,4 +49,4 @@ with Session('database.db') as session:
 ```
 python3 -m simple_sqlite3_orm.create_tables my_models.py
 ```
-`my_models.py` is file which contains your models.
+here `my_models.py` is a file which contains your models.
