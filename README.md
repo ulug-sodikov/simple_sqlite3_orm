@@ -10,10 +10,12 @@ Simple Python ORM for sqlite3.
 ```
 ## Usage
 ```
-from orm.model import (
-    Model, Integer, Blob, 
-    Text
-)    
+from simple_sqlite3_orm.models import Model
+from simple_sqlite3_orm.columns import (
+    Integer, Blob, Text
+)
+from simple_sqlite3_orm.session import Session
+from simple_sqlite3_orm.statements import select
 
 
 class Car(Model):
@@ -38,9 +40,11 @@ class Engine(Model):
 
 with Session('database.db') as session:
     # Select all BMW cars that cost less than 200k $ and output them.
-    res = select(Car.brand, Car.model).where(
+    query = select(Car.brand, Car.model).where(
         Car.price <= 200000, Car.brand == "BMW"
     )
+    res = session.execute(query)
+    
     for row in res:
         print(*row)
         
