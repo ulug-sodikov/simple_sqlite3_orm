@@ -1,5 +1,12 @@
 # Simple ORM
 Simple Python ORM for sqlite3.
+## Prerequisite
+- To use this library you need to create file `simple_sqlite3_orm.pth`
+  with the path to `src/simple-sqlite-orm` directory in your 
+  `python3.X/site-pachages/` directory. Example:
+```
+/home/username/PycharmProjects/simple_sqlite3_orm/src
+```
 ## Usage
 ```
 from orm.model import (
@@ -12,7 +19,7 @@ class Car(Model):
     __table_name__ = 'cars'
 
     id = Integer(primary_key=True, autoincrement=True)
-    brand = Text()
+    brand = Text(default="Tesla")
     model = Text()
     engine_id = Integer()
     horsepower = Integer()
@@ -37,3 +44,9 @@ with Session('database.db') as session:
         print(*row)
         
 ```
+
+- To create tables use the following command:
+```
+python3 -m simple_sqlite3_orm.create_tables my_models.py
+```
+`my_models.py` is file which contains your models.

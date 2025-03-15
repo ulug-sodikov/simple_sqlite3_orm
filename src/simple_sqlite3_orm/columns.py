@@ -1,4 +1,4 @@
-from utils import classproperty
+from simple_sqlite3_orm.utils import classproperty
 
 
 class Column:

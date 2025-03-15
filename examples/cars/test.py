@@ -1,11 +1,6 @@
-import pathlib
-import sys
+from simple_sqlite3_orm.statements import select
 
-module_path = pathlib.Path(__file__).parent.parent.parent
-sys.path.append(str(module_path))
-
-from src.queries import select
-from examples.cars.models import Car, Engine
+from models import Car, Engine
 
 
 def main():

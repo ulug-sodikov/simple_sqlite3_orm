@@ -5,11 +5,7 @@ import inspect
 import sqlite3
 from pathlib import Path
 
-from model import Model
-
-
-## Fix imports, otherwise this can happen
-## <class 'src.model.Model'> <class 'model.Model'>
+from simple_sqlite3_orm.models import Model
 
 
 def import_from_path(models_path):
@@ -34,8 +30,8 @@ def create_table_stmt(model):
     return f"CREATE TABLE {model.__table_name__} ({', '.join(col_stmts)})"
 
 
-def create_tables(models_file_path):
-    module = import_from_path(models_file_path)
+def create_tables(models_path):
+    module = import_from_path(models_path)
 
     models = inspect.getmembers(
         module,
@@ -52,9 +48,9 @@ def create_tables(models_file_path):
 
 if __name__ == '__main__':
     try:
-        models_file_path = sys.argv[1]
+        models_path = sys.argv[1]
     except IndexError:
         print('Provide models file path.')
         exit()
     else:
-        create_tables(models_file_path)
+        create_tables(models_path)

@@ -1,11 +1,5 @@
-import sys
-import pathlib
-
-src_module_dir = pathlib.Path(__file__).parent.parent.parent
-sys.path.append(str(src_module_dir / 'src'))
-
-from model import Model
-from columns import Integer, Text, Real, Blob
+from simple_sqlite3_orm.models import Model
+from simple_sqlite3_orm.columns import Integer, Text, Real, Blob
 
 
 class Car(Model):

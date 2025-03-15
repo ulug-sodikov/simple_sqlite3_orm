@@ -1,4 +1,3 @@
-# :
 # Columns should have "model_" attribute (reference to model).
 # Columns should have "query_" attribute (column name).
 # Models should have "__table_name__" class attribute.

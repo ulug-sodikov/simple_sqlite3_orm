@@ -1,5 +1,5 @@
-from columns import Column
-from utils import classproperty
+from simple_sqlite3_orm.columns import Column
+from simple_sqlite3_orm.utils import classproperty
 
 
 class Model:
