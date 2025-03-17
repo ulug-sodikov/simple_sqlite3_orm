@@ -11,7 +11,7 @@ class SelectQuery:
     Typical usage:
         SelectQuery().select(Model.column)
     """
-    _query_parts = ("SELECT", "FROM", "JOIN", "ON")
+    _query_parts = ("SELECT", "FROM", "JOIN", "ON", "WHERE")
 
     def __init__(self):
         self._query = {}
@@ -80,6 +80,16 @@ class SelectQuery:
         Implements SQL "ON table.column = another_table.column" query part.
         """
         self._query['ON'] = f'ON {column.query_} = {matching_column.query_}'
+
+        return self
+
+    def where(self, condition):
+        """
+        Implements SQL "WHERE condition AND/OR another_condition AND/OR ...;"
+        query part.
+        """
+        self._query['WHERE'] = f'WHERE {condition.query_}'
+        self._parameters.update(condition.parameters_)
 
         return self
 
