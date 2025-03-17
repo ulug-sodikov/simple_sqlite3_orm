@@ -28,6 +28,9 @@ class ConditionOperationsMixin:
     def __and__(self, queryable):
         return Condition('AND', self, queryable)
 
+    def __or__(self, queryable):
+        return Condition('OR', self, queryable)
+
     def in_(self, *values):
         return Condition('IN', self, values)
 
