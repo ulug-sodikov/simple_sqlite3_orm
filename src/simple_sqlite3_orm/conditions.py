@@ -16,11 +16,11 @@ class ConditionOperationsMixin:
     def __gt__(self, queryable):
         return Condition('>', self, queryable)
 
-    def __ge__(self, queryable):
-        return Condition('>=', self, queryable)
-
     def __lt__(self, queryable):
         return Condition('<', self, queryable)
+
+    def __ge__(self, queryable):
+        return Condition('>=', self, queryable)
 
     def __le__(self, queryable):
         return Condition('<=', self, queryable)
@@ -43,7 +43,7 @@ class ConditionOperationsMixin:
 
 class Condition(ConditionOperationsMixin):
     """
-    An object representing an SQL condition statement part in SQL query.
+    An object representing an SQL condition statement within SQL query.
     """
     def __init__(self, operator, queryable, other_queryable):
         self.query_, self.parameters_ = self.create_condition_query(
@@ -67,7 +67,7 @@ class Condition(ConditionOperationsMixin):
     def to_query(self, queryable):
         """
         Returns a tuple of SQL condition query part and placeholder parameters
-        for a single unit (Condition, Column or other values).
+        for a single unit (Condition, Column or other value).
         """
         query = getattr(queryable, 'query_', None)
         if query is not None:
