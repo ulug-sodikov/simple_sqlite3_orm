@@ -10,7 +10,7 @@ def main():
         .join(Engine)
         .on(Car.engine_id, Engine.id)
         .where(
-            Car.brand.in_('toyota', 'nissan', 'audi') > Car.engine_id.in_(1, 4, 7)
+            Car.brand.in_('toyota', 'nissan', 'audi') & Car.engine_id.in_(1, 4, 7)
         )
     )
     print(*q)

@@ -6,10 +6,7 @@ num_generator = itertools.count()
 
 
 class ConditionOperationsMixin:
-    """
-    Implements SQL condition operations.
-    """
-
+    """Implements SQL condition operations."""
     def __eq__(self, queryable):
         return Condition('=', self, queryable)
 
