@@ -27,8 +27,8 @@ class Car(Model):
     engine_id = Integer()
     horsepower = Integer()
     price = Integer()
-    image = Blob()
-    image_filename = Text()
+    image = Blob(not_null=False)
+    image_filename = Text(not_null=False)
 
 
 class Engine(Model):
@@ -50,7 +50,7 @@ with Session('database.db') as session:
         
     # Insert new rows into database.
     engine = Engine(name="3.0-liter twin-turbocharged straight-six")
-    supra = Car(brand='Toyota', model='Supra MK4', to_100=5.3, horsepower=321)
+    supra = Car(brand='Toyota', model='Supra MK4', horsepower=321, price=120000)
     
     session.insert(engine)
     supra.engine_id = engine.id
