@@ -25,9 +25,9 @@ def main():
         session.insert(engine)
         supra.engine_id = engine.id
 
-        print(f'mclaren.id: {supra.id}')    # No id yet.
+        print(f'supra.id: {supra.id}')    # No id yet.
         session.insert(supra)
-        print(f'mclaren.id: {supra.id}')    # Got id after insertion.
+        print(f'supra.id: {supra.id}')    # Got id after insertion.
 
 
 if __name__ == '__main__':
