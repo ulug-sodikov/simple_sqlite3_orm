@@ -10,13 +10,13 @@ class Column(ConditionOperationsMixin):
         primary_key=False,
         unique=False,
         autoincrement=False,
-        not_null=True,
+        nullable=False,
     ):
         self.default = default
         self.primary_key = primary_key
         self.unique = unique
         self.autoincrement = autoincrement
-        self.not_null = not_null
+        self.nullable = nullable
         self.attrname = None
         self.model_ = None
         self.query_ = None
@@ -58,7 +58,7 @@ class Column(ConditionOperationsMixin):
         if self.unique:
             stmt_parts.append("UNIQUE")
 
-        if self.not_null:
+        if not self.nullable:
             stmt_parts.append("NOT NULL")
 
         return ' '.join(stmt_parts)

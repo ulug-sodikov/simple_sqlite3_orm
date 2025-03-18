@@ -27,8 +27,8 @@ class Car(Model):
     engine_id = Integer()
     horsepower = Integer()
     price = Integer()
-    image = Blob(not_null=False)
-    image_filename = Text(not_null=False)
+    image = Blob(nullable=True)
+    image_filename = Text(nullable=True)
 
 
 class Engine(Model):
