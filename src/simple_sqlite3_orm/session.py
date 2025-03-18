@@ -22,14 +22,13 @@ def row_factory(model_cls, cursor, row):
 
 class Session:
     def __init__(self, path):
-        self.path = path
-        self.con = None
+        self.con = sqlite3.connect(path)
 
     def execute(self, query):
         if self.con is None:
             raise sqlite3.ProgrammingError("No connection!")
 
-        sqlite3.row_factory = partial(row_factory, query.primary_model)
+        self.con.row_factory = partial(row_factory, query.primary_model)
         return self.con.execute(*query).fetchall()
 
     def insert(self, model):
@@ -64,8 +63,6 @@ class Session:
         self.con.rollback()
 
     def __enter__(self):
-        self.con = sqlite3.connect(self.path)
-
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):

@@ -41,13 +41,24 @@ class Engine(Model):
 with Session('database.db') as session:
     # Select all BMW cars that cost less than 200k $ and output them.
     query = select(Car.brand, Car.model).where(
-        Car.price <= 200000, Car.brand == "BMW"
+        Car.price <= 200000 & Car.brand == "BMW"
     )
     res = session.execute(query)
     
     for row in res:
-        print(*row)
+        print(row)
         
+    # Insert new rows into database.
+    engine = Engine(name="3.0-liter twin-turbocharged straight-six")
+    supra = Car(brand='Toyota', model='Supra MK4', to_100=5.3, horsepower=321)
+    
+    session.insert(engine)
+    supra.engine_id = engine.id
+    
+    print(f"supra.id: {supra.id}")      # Example output: supra.id: None
+    session.insert(engine)
+    print(f"supra.id: {supra.id}")      # Example output: supra.id: 47
+
 ```
 
 - To create tables use the following command:

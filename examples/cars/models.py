@@ -11,8 +11,6 @@ class Car(Model):
     to_100 = Real()
     engine_id = Integer()
     horsepower = Integer()
-    image = Blob()
-    image_filename = Text()
 
 
 class Engine(Model):
