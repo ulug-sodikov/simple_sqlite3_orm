@@ -30,9 +30,9 @@ def main():
         engine.id = 45
         engine.name = '4.0-liter twin-turbocharged V8 engine'
 
-        print(mclaren.id)
+        print(f'mclaren.id: {mclaren.id}')
         session.insert(mclaren)
-        print(mclaren.id)
+        print(f'mclaren.id: {mclaren.id}')
 
 
 if __name__ == '__main__':
