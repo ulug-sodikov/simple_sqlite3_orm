@@ -109,7 +109,7 @@ class SelectStatement:
 
     def __iter__(self):
         yield self.query
-        yield self._parameters
+        yield self.parameters
 
 
 class InsertStatement:
@@ -135,12 +135,12 @@ class InsertStatement:
     @property
     def statement(self):
         """Get raw SQL query."""
-        placeholders = [f':{p}' for p in self.parameters]
+        named_placeholders = [f':{p}' for p in self.parameters]
 
         return f"""
             INSERT INTO {self.model.__table_name__}
             ({', '.join(self.inserting_columns)})
-            VALUES ({', '.join(placeholders)})
+            VALUES ({', '.join(named_placeholders)})
         """
 
     def __iter__(self):
