@@ -3,7 +3,7 @@ from simple_sqlite3_orm.conditions import ConditionOperationsMixin
 
 
 class Column(ConditionOperationsMixin):
-    """An object representing SQL column."""
+    """An object representing SQL table column."""
     def __init__(
         self,
         default=None,

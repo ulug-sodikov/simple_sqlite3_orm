@@ -4,12 +4,12 @@
 # Aggregate functions like SUM should act like column objects.
 
 
-class SelectQuery:
+class SelectStatement:
     """
     Class for creating SQL select queries.
 
     Typical usage:
-        SelectQuery().select(Model.column)
+        SelectStatement().select(Model.column)
     """
     _query_parts = ("SELECT", "FROM", "JOIN", "ON", "WHERE")
 
@@ -103,11 +103,51 @@ class SelectQuery:
 
         return " ".join(query_parts)
 
+    @property
+    def parameters(self):
+        return self._parameters
+
     def __iter__(self):
         yield self.query
         yield self._parameters
 
 
+class InsertStatement:
+    """
+    Class for creating SQL insert statement.
+
+    Typical usage:
+        InsertStatement(model).statement
+    """
+    def __init__(self, model):
+        self.model = model
+
+    @property
+    def inserting_columns(self):
+        return [col for col in self.model.column_names_
+                             if getattr(self.model, col, None) is not None]
+
+    @property
+    def parameters(self):
+        return {f'param_{col}': getattr(self.model, col)
+                for col in self.inserting_columns}
+
+    @property
+    def statement(self):
+        """Get raw SQL query."""
+        placeholders = [f':{p}' for p in self.parameters]
+
+        return f"""
+            INSERT INTO {self.model.__table_name__}
+            ({', '.join(self.inserting_columns)})
+            VALUES ({', '.join(placeholders)})
+        """
+
+    def __iter__(self):
+        yield self.statement
+        yield self.parameters
+
+
 def select(*args, **kwargs):
     """Shortcut for creating select query."""
-    return SelectQuery().select(*args, **kwargs)
+    return SelectStatement().select(*args, **kwargs)

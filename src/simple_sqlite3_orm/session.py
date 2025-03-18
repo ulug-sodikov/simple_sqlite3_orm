@@ -1,5 +1,8 @@
 import sqlite3
 from functools import partial
+from contextlib import contextmanager
+
+from simple_sqlite3_orm.statements import InsertStatement
 
 
 def row_factory(model_cls, cursor, row):
@@ -29,7 +32,26 @@ class Session:
         sqlite3.row_factory = partial(row_factory, query.primary_model)
         return self.con.execute(*query).fetchall()
 
-    def flush(self):
+    def insert(self, model):
+        """Insert a row into the table."""
+        if self.con is None:
+            raise sqlite3.ProgrammingError("No connection!")
+
+        with start_transaction(self):
+            stmt = InsertStatement(model)
+            cur = self.con.execute(*stmt)
+
+        # Assign id of newly created row to model.
+        for column in model.column_names_:
+            # get column descriptor, not column value.
+            col = getattr(model.__class__, column)
+            if col.primary_key:
+                setattr(model, column, cur.lastrowid)
+                break
+
+        return model
+
+    def commit(self):
         if self.con is None:
             raise sqlite3.ProgrammingError("No connection!")
 
@@ -48,8 +70,18 @@ class Session:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         if exc_type is None:
-            self.flush()
+            self.commit()
         else:
             self.rollback()
 
         self.con.close()
+
+
+@contextmanager
+def start_transaction(session):
+    try:
+        yield session
+    except Exception:
+        session.rollback()
+    else:
+        session.commit()
