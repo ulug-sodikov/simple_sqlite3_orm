@@ -18,21 +18,16 @@ def main():
     print(Engine.column_names_)
     print(Car.column_names_)
 
+    engine = Engine(name="3.0-liter twin-turbocharged straight-six")
+    supra = Car(brand='Toyota', model='Supra MK4', to_100=5.3, horsepower=321)
+
     with Session('database.db') as session:
-        mclaren = Car()
-        mclaren.brand = 'McLaren'
-        mclaren.model = 'GT'
-        mclaren.to_100 = 3.2
-        mclaren.engine_id = 45
-        mclaren.horsepower = 612
+        session.insert(engine)
+        supra.engine_id = engine.id
 
-        engine = Engine()
-        engine.id = 45
-        engine.name = '4.0-liter twin-turbocharged V8 engine'
-
-        print(f'mclaren.id: {mclaren.id}')
-        session.insert(mclaren)
-        print(f'mclaren.id: {mclaren.id}')
+        print(f'mclaren.id: {supra.id}')    # No id yet.
+        session.insert(supra)
+        print(f'mclaren.id: {supra.id}')    # Got id after insertion.
 
 
 if __name__ == '__main__':
