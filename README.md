@@ -56,7 +56,7 @@ with Session('database.db') as session:
     supra.engine_id = engine.id
     
     print(f"supra.id: {supra.id}")      # Example output: supra.id: None
-    session.insert(engine)
+    session.insert(supra)               # supra will get id after insertion.
     print(f"supra.id: {supra.id}")      # Example output: supra.id: 47
 
 ```
