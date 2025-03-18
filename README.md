@@ -49,7 +49,7 @@ with Session('database.db') as session:
         print(row)
         
     # Insert new rows into database.
-    <span style="color:blue">engine</span> = Engine(name="3.0-liter twin-turbocharged straight-six")
+    engine = Engine(name="3.0-liter twin-turbocharged straight-six")
     supra = Car(brand='Toyota', model='Supra MK4', horsepower=321, price=120000)
     
     session.insert(engine)
