@@ -148,6 +148,49 @@ class InsertStatement:
         yield self.parameters
 
 
+class UpdateStatement:
+    """
+    Class for creating SQL update statement.
+
+    Typical usage:
+        UpdateStatement(model).statement
+    """
+    def __init__(self, model):
+        self.model = model
+
+    @property
+    def pk_column_name(self):
+        pk_col_name = None
+        for col_name in self.model.column_names_:
+            col_obj = getattr(self.model.__class__, col_name)
+            if col_obj.primary_key:
+                pk_col_name = col_name
+                break
+
+        return pk_col_name
+
+    @property
+    def parameters(self):
+        return {f'param_{col_name}': getattr(self.model, col_name)
+                for col_name in self.model.column_names_}
+
+    @property
+    def statement(self):
+        updating_cols = self.model.column_names_
+        updating_cols.remove(self.pk_column_name)
+        stmt_parts = [f'{col} = :param_{col}' for col in updating_cols]
+
+        return f"""
+            UPDATE {self.model.__table_name__}
+            SET {', '.join(stmt_parts)}
+            WHERE {self.pk_column_name} = :param_{self.pk_column_name}
+        """
+
+    def __iter__(self):
+        yield self.statement
+        yield self.parameters
+
+
 def select(*args, **kwargs):
     """Shortcut for creating select query."""
     return SelectStatement().select(*args, **kwargs)

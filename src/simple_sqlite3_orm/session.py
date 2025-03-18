@@ -2,7 +2,7 @@ import sqlite3
 from functools import partial
 from contextlib import contextmanager
 
-from simple_sqlite3_orm.statements import InsertStatement
+from simple_sqlite3_orm.statements import InsertStatement, UpdateStatement
 
 
 def row_factory(model_cls, cursor, row):
@@ -50,6 +50,30 @@ class Session:
 
         return model
 
+    def update(self, model):
+        """Update a row in table."""
+        pk_column = None
+        for col in model.column_names_:
+            col = getattr(model.__class__, col)
+            if col.primary_key:
+                pk_column = col
+                break
+
+        if pk_column is None:
+            raise Exception("Model does not have a primary key column!")
+
+        pk_value = pk_column.__get__(model)
+        if pk_value is None:
+            raise Exception(
+                "Trying to update a row that doesn't exists in the table!"
+            )
+
+        with start_transaction(self):
+            stmt = UpdateStatement(model)
+            self.con.execute(*stmt)
+
+        return model
+
     def commit(self):
         if self.con is None:
             raise sqlite3.ProgrammingError("No connection!")
@@ -80,5 +104,6 @@ def start_transaction(session):
         yield session
     except Exception:
         session.rollback()
+        raise
     else:
         session.commit()

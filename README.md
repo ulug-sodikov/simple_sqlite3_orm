@@ -58,6 +58,10 @@ with Session('database.db') as session:
     print(f"supra.id: {supra.id}")      # Example output: supra.id: None
     session.insert(supra)               # supra will get id after insertion.
     print(f"supra.id: {supra.id}")      # Example output: supra.id: 47
+    
+    # Update existing rows.
+    supra.price += 5000
+    session.update(supra)
 
 ```
 

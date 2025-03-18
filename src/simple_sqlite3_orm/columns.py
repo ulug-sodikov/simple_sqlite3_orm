@@ -30,7 +30,7 @@ class Column(ConditionOperationsMixin):
         self.validate(value)
         instance.__dict__[self.attrname] = value
 
-    def __get__(self, instance, owner):
+    def __get__(self, instance, owner=None):
         if instance is None:
             return self
 
