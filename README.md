@@ -59,10 +59,13 @@ with Session('database.db') as session:
     session.insert(supra)               # supra will get id after insertion.
     print(f"supra.id: {supra.id}")      # Example output: supra.id: 47
     
-    # Update existing rows.
+    # Update row.
     supra.price += 5000
     session.update(supra)
-
+    
+    # Delete row.
+    session.delete(supra)
+    
 ```
 
 - To create tables use the following command:

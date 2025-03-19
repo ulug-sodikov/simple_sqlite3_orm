@@ -181,6 +181,29 @@ class UpdateStatement:
         yield self.parameters
 
 
+class DeleteStatement:
+    def __init__(self, model):
+        self.model = model
+
+    @property
+    def parameters(self):
+        col_name = self.model.pk_column_name_
+        return {f'param_{col_name}': getattr(self.model, col_name)}
+
+    @property
+    def statement(self):
+        col_name = self.model.pk_column_name_
+
+        return f"""
+            DELETE FROM {self.model.__table_name__}
+            WHERE {col_name} = :param_{col_name}
+        """
+
+    def __iter__(self):
+        yield self.statement
+        yield self.parameters
+
+
 def select(*args, **kwargs):
     """Shortcut for creating select query."""
     return SelectStatement().select(*args, **kwargs)

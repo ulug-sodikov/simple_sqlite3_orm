@@ -2,7 +2,9 @@ import sqlite3
 from functools import partial
 from contextlib import contextmanager
 
-from simple_sqlite3_orm.statements import InsertStatement, UpdateStatement
+from simple_sqlite3_orm.statements import (
+    InsertStatement, UpdateStatement, DeleteStatement
+)
 
 
 def row_factory(model_cls, cursor, row):
@@ -64,6 +66,22 @@ class Session:
             self.con.execute(*stmt)
 
         return model
+
+    def delete(self, model):
+        """Delete a row from the table."""
+        pk_col_name = model.pk_column_name_
+        if pk_col_name is None:
+            raise Exception("Can't delete a row that doesn't have pk column!")
+
+        pk_col_value = getattr(model, pk_col_name)
+        if pk_col_value is None:
+            raise Exception(
+                "Trying to delete a row that doesn't exist in the table!"
+            )
+
+        with start_transaction(self):
+            stmt = DeleteStatement(model)
+            self.con.execute(*stmt)
 
     def commit(self):
         if self.con is None:
