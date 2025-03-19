@@ -49,7 +49,12 @@ class Session:
 
     def update(self, model):
         """Update a row in table."""
-        pk_col_value = getattr(model, model.pk_column_name_)
+        pk_col_name = model.pk_column_name_
+
+        if pk_col_name is None:
+            raise Exception("Can't update row that doesn't have pk column!")
+
+        pk_col_value = getattr(model, pk_col_name)
         if pk_col_value is None:
             raise Exception(
                 "Trying to update a row that doesn't exist in the table!"
