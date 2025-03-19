@@ -1,4 +1,4 @@
-from simple_sqlite3_orm.statements import select, DeleteStatement
+from simple_sqlite3_orm.statements import select
 from simple_sqlite3_orm.session import Session
 
 from models import Car, Engine
@@ -38,7 +38,7 @@ def main():
 
         print(len(session.execute(select(Car))))        # Output: 1
         session.delete(supra)
-        print(session.execute(select(Car)))             # Output: 0
+        print(len(session.execute(select(Car))))             # Output: 0
 
 
 if __name__ == '__main__':
