@@ -41,7 +41,7 @@ class Session:
             cur = self.con.execute(*stmt)
 
         # Assign id of newly created row to model.
-        pk_col_name = stmt.pk_column_name_
+        pk_col_name = model.pk_column_name_
         if pk_col_name is not None:
             setattr(model, pk_col_name, cur.lastrowid)
 

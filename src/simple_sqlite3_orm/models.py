@@ -31,10 +31,10 @@ class Model:
     @classproperty
     def pk_column_name_(cls):
         pk_col_name = None
-        for col in cls.column_names_:
-            col = getattr(cls, col)
+        for col_name in cls.column_names_:
+            col = getattr(cls, col_name)
             if col.primary_key:
-                pk_col_name = col
+                pk_col_name = col_name
                 break
 
         return pk_col_name
