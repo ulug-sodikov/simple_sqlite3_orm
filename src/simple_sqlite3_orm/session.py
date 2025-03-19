@@ -65,7 +65,7 @@ class Session:
         pk_value = pk_column.__get__(model)
         if pk_value is None:
             raise Exception(
-                "Trying to update a row that doesn't exists in the table!"
+                "Trying to update a row that doesn't exist in the table!"
             )
 
         with start_transaction(self):

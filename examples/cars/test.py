@@ -18,18 +18,17 @@ def main():
     print(Engine.column_names_)
     print(Car.column_names_)
 
-    # engine = Engine(name="3.0-liter twin-turbocharged straight-six")
-    # supra = Car(brand='Toyota', model='Supra MK4', to_100=5.3, horsepower=321)
+    engine = Engine(name="3.0-liter twin-turbocharged straight-six")
+    supra = Car(brand='Toyota', model='Supra MK4', to_100=5.3, horsepower=321)
 
     with Session('database.db') as session:
-        # session.insert(engine)
-        # supra.engine_id = engine.id
-        #
-        # print(f'supra.id: {supra.id}')    # No id yet.
-        # session.insert(supra)
-        # print(f'supra.id: {supra.id}')    # Got id after insertion.
+        session.insert(engine)
+        supra.engine_id = engine.id
 
-        supra = session.execute(select(Car).where(Car.model.like('supra%')))[0]
+        print(f'supra.id: {supra.id}')    # No id yet.
+        session.insert(supra)
+        print(f'supra.id: {supra.id}')    # Got id after insertion.
+
         print(supra.horsepower)
         supra.horsepower += 700
         session.update(supra)
