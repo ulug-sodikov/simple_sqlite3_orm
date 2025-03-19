@@ -38,7 +38,7 @@ def main():
 
         print(len(session.execute(select(Car))))        # Output: 1
         session.delete(supra)
-        print(len(session.execute(select(Car))))             # Output: 0
+        print(len(session.execute(select(Car))))        # Output: 0
 
 
 if __name__ == '__main__':
