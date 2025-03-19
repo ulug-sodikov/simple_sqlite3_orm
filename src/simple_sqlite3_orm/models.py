@@ -29,5 +29,16 @@ class Model:
         return [k for k, v in cls.__dict__.items() if isinstance(v, Column)]
 
     @classproperty
+    def pk_column_name_(cls):
+        pk_col_name = None
+        for col in cls.column_names_:
+            col = getattr(cls, col)
+            if col.primary_key:
+                pk_col_name = col
+                break
+
+        return pk_col_name
+
+    @classproperty
     def model_(cls):
         return cls

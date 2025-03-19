@@ -159,31 +159,21 @@ class UpdateStatement:
         self.model = model
 
     @property
-    def pk_column_name(self):
-        pk_col_name = None
-        for col_name in self.model.column_names_:
-            col_obj = getattr(self.model.__class__, col_name)
-            if col_obj.primary_key:
-                pk_col_name = col_name
-                break
-
-        return pk_col_name
-
-    @property
     def parameters(self):
         return {f'param_{col_name}': getattr(self.model, col_name)
                 for col_name in self.model.column_names_}
 
     @property
     def statement(self):
+        pk_col_name = self.model.pk_column_name_
         updating_cols = self.model.column_names_
-        updating_cols.remove(self.pk_column_name)
+        updating_cols.remove(pk_col_name)
         stmt_parts = [f'{col} = :param_{col}' for col in updating_cols]
 
         return f"""
             UPDATE {self.model.__table_name__}
             SET {', '.join(stmt_parts)}
-            WHERE {self.pk_column_name} = :param_{self.pk_column_name}
+            WHERE {pk_col_name} = :param_{pk_col_name}
         """
 
     def __iter__(self):

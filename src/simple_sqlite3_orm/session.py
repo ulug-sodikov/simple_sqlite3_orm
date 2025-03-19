@@ -41,29 +41,16 @@ class Session:
             cur = self.con.execute(*stmt)
 
         # Assign id of newly created row to model.
-        for column in model.column_names_:
-            # get column descriptor, not column value.
-            col = getattr(model.__class__, column)
-            if col.primary_key:
-                setattr(model, column, cur.lastrowid)
-                break
+        pk_col_name = stmt.pk_column_name_
+        if pk_col_name is not None:
+            setattr(model, pk_col_name, cur.lastrowid)
 
         return model
 
     def update(self, model):
         """Update a row in table."""
-        pk_column = None
-        for col in model.column_names_:
-            col = getattr(model.__class__, col)
-            if col.primary_key:
-                pk_column = col
-                break
-
-        if pk_column is None:
-            raise Exception("Model does not have a primary key column!")
-
-        pk_value = pk_column.__get__(model)
-        if pk_value is None:
+        pk_col_value = getattr(model, model.pk_column_name_)
+        if pk_col_value is None:
             raise Exception(
                 "Trying to update a row that doesn't exist in the table!"
             )
