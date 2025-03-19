@@ -50,7 +50,6 @@ class Session:
     def update(self, model):
         """Update a row in table."""
         pk_col_name = model.pk_column_name_
-
         if pk_col_name is None:
             raise Exception("Can't update row that doesn't have pk column!")
 
